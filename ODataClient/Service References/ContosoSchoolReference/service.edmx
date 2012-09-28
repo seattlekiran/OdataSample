@@ -1,0 +1,70 @@
+﻿<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <edmx:DataServices m:DataServiceVersion="1.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+    <Schema Namespace="ContosoSchool" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <EntityType Name="Class">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" />
+        <NavigationProperty Name="Instructor" Relationship="ContosoSchool.ContosoSchool_Class_Instructor_ContosoSchool_Instructor_InstructorPartner" ToRole="Instructor" FromRole="InstructorPartner" />
+        <NavigationProperty Name="Students" Relationship="ContosoSchool.ContosoSchool_Class_Students_ContosoSchool_Student_StudentsPartner" ToRole="Students" FromRole="StudentsPartner" />
+      </EntityType>
+      <EntityType Name="Student">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" />
+        <NavigationProperty Name="Classes" Relationship="ContosoSchool.ContosoSchool_Student_Classes_ContosoSchool_Class_ClassesPartner" ToRole="Classes" FromRole="ClassesPartner" />
+      </EntityType>
+      <EntityType Name="Instructor">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" />
+        <NavigationProperty Name="Classes" Relationship="ContosoSchool.ContosoSchool_Instructor_Classes_ContosoSchool_Class_ClassesPartner" ToRole="Classes" FromRole="ClassesPartner" />
+      </EntityType>
+      <Association Name="ContosoSchool_Class_Instructor_ContosoSchool_Instructor_InstructorPartner">
+        <End Type="ContosoSchool.Instructor" Role="Instructor" Multiplicity="0..1" />
+        <End Type="ContosoSchool.Class" Role="InstructorPartner" Multiplicity="0..1" />
+      </Association>
+      <Association Name="ContosoSchool_Class_Students_ContosoSchool_Student_StudentsPartner">
+        <End Type="ContosoSchool.Student" Role="Students" Multiplicity="*" />
+        <End Type="ContosoSchool.Class" Role="StudentsPartner" Multiplicity="0..1" />
+      </Association>
+      <Association Name="ContosoSchool_Student_Classes_ContosoSchool_Class_ClassesPartner">
+        <End Type="ContosoSchool.Class" Role="Classes" Multiplicity="*" />
+        <End Type="ContosoSchool.Student" Role="ClassesPartner" Multiplicity="0..1" />
+      </Association>
+      <Association Name="ContosoSchool_Instructor_Classes_ContosoSchool_Class_ClassesPartner">
+        <End Type="ContosoSchool.Class" Role="Classes" Multiplicity="*" />
+        <End Type="ContosoSchool.Instructor" Role="ClassesPartner" Multiplicity="0..1" />
+      </Association>
+    </Schema>
+    <Schema Namespace="Default" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <EntityContainer Name="Container">
+        <EntitySet Name="Classes" EntityType="ContosoSchool.Class" />
+        <EntitySet Name="Students" EntityType="ContosoSchool.Student" />
+        <EntitySet Name="Instructors" EntityType="ContosoSchool.Instructor" />
+        <AssociationSet Name="ContosoSchool_Class_Instructor_ContosoSchool_Instructor_InstructorPartnerSet" Association="ContosoSchool.ContosoSchool_Class_Instructor_ContosoSchool_Instructor_InstructorPartner">
+          <End Role="InstructorPartner" EntitySet="Classes" />
+          <End Role="Instructor" EntitySet="Instructors" />
+        </AssociationSet>
+        <AssociationSet Name="ContosoSchool_Class_Students_ContosoSchool_Student_StudentsPartnerSet" Association="ContosoSchool.ContosoSchool_Class_Students_ContosoSchool_Student_StudentsPartner">
+          <End Role="StudentsPartner" EntitySet="Classes" />
+          <End Role="Students" EntitySet="Students" />
+        </AssociationSet>
+        <AssociationSet Name="ContosoSchool_Student_Classes_ContosoSchool_Class_ClassesPartnerSet" Association="ContosoSchool.ContosoSchool_Student_Classes_ContosoSchool_Class_ClassesPartner">
+          <End Role="ClassesPartner" EntitySet="Students" />
+          <End Role="Classes" EntitySet="Classes" />
+        </AssociationSet>
+        <AssociationSet Name="ContosoSchool_Instructor_Classes_ContosoSchool_Class_ClassesPartnerSet" Association="ContosoSchool.ContosoSchool_Instructor_Classes_ContosoSchool_Class_ClassesPartner">
+          <End Role="ClassesPartner" EntitySet="Instructors" />
+          <End Role="Classes" EntitySet="Classes" />
+        </AssociationSet>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
