@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Edm;
 using ODataService.Models;
+using ODataService.Models.School;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,7 +19,7 @@ namespace ODataService
     /// </summary>
     class Program
     {
-        static readonly Uri _baseAddress = new Uri("http://kclaptop:50231/");
+        static readonly Uri _baseAddress = new Uri(string.Format("http://{0}:50231/", Environment.MachineName));
 
         static void Main(string[] args)
         {
@@ -26,8 +27,8 @@ namespace ODataService
 
             try
             {
-                DbMigrator migrator = new DbMigrator(new ContosoSchool.ContosoSchoolMigrationConfiguration());
-                migrator.Update(null);
+                //DbMigrator migrator = new DbMigrator(new ContosoSchoolMigrationConfiguration());
+                //migrator.Update(null);
 
                 // Set up server configuration
                 HttpSelfHostConfiguration configuration = new HttpSelfHostConfiguration(_baseAddress);
@@ -179,79 +180,11 @@ namespace ODataService
             //modelBuilder.EntitySet<ProductFamily>("ProductFamilies");
             //modelBuilder.EntitySet<Supplier>("Suppliers");
 
-            modelBuilder.EntitySet<ContosoSchool.Class>("Classes");
-            modelBuilder.EntitySet<ContosoSchool.Student>("Students");
-            modelBuilder.EntitySet<ContosoSchool.Instructor>("Instructors");
+            modelBuilder.EntitySet<Class>("Classes");
+            modelBuilder.EntitySet<Student>("Students");
+            modelBuilder.EntitySet<Instructor>("Instructors");
 
             return modelBuilder.GetEdmModel();
         }
-    }
-}
-
-namespace ContosoSchool
-{
-    public class Class
-    {
-        public Class()
-        {
-            this.Students = new List<Student>();
-        }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public Instructor Instructor { get; set; }
-        public List<Student> Students { get; set; }
-    }
-
-    public class Student
-    {
-        public Student()
-        {
-            this.Classes = new List<Class>();
-        }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public List<Class> Classes { get; set; }
-    }
-
-    public class Instructor
-    {
-        public Instructor()
-        {
-            this.Classes = new List<Class>();
-        }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public List<Class> Classes { get; set; }
-    }
-
-    internal sealed class ContosoSchoolMigrationConfiguration : DbMigrationsConfiguration<ContosoSchoolContext>
-    {
-        public ContosoSchoolMigrationConfiguration()
-        {
-            AutomaticMigrationsEnabled = true;
-        }
-
-        protected override void Seed(ContosoSchoolContext context)
-        {
-            context.Database.Delete();
-            context.Database.CreateIfNotExists();
-        }
-    }
-
-    public class ContosoSchoolContext : DbContext
-    {
-        public ContosoSchoolContext()
-            : base("ContosoSchool")
-        {
-        }
-
-        public DbSet<Class> Classes { get; set; }
-
-        public DbSet<Student> Students { get; set; }
-
-        public DbSet<Instructor> Instructors { get; set; }
     }
 }

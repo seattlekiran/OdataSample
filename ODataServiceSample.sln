@@ -23,11 +23,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryableRepro", "Queryable
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODataRepro.Client", "ODataRepro.Client\ODataRepro.Client.csproj", "{E02A83F2-A1D0-46EA-8C78-6DA63F2676E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Web.Http.OData", "D:\Runtime\src\System.Web.Http.OData\System.Web.Http.OData.csproj", "{CF73AAA7-ACE9-4C91-AFA5-5EC1DF18FEEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Web.Http.OData", "..\..\..\..\..\Runtime\src\System.Web.Http.OData\System.Web.Http.OData.csproj", "{CF73AAA7-ACE9-4C91-AFA5-5EC1DF18FEEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Web.Http.OData.Test", "D:\Runtime\test\System.Web.Http.OData.Test\System.Web.Http.OData.Test.csproj", "{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.TestCommon", "..\..\..\..\..\Runtime\test\Microsoft.TestCommon\Microsoft.TestCommon.csproj", "{FCCC4CB7-BAF7-4A57-9F89-E5766FE536C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.TestCommon", "D:\Runtime\test\Microsoft.TestCommon\Microsoft.TestCommon.csproj", "{FCCC4CB7-BAF7-4A57-9F89-E5766FE536C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Web.Http.OData.Test", "..\..\..\..\..\Runtime\test\System.Web.Http.OData.Test\System.Web.Http.OData.Test.csproj", "{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,18 +72,18 @@ Global
 		{CF73AAA7-ACE9-4C91-AFA5-5EC1DF18FEEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF73AAA7-ACE9-4C91-AFA5-5EC1DF18FEEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF73AAA7-ACE9-4C91-AFA5-5EC1DF18FEEE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.CodeCoverage|Any CPU.ActiveCfg = Release|Any CPU
-		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.CodeCoverage|Any CPU.Build.0 = Release|Any CPU
-		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FCCC4CB7-BAF7-4A57-9F89-E5766FE536C0}.CodeCoverage|Any CPU.ActiveCfg = CodeCoverage|Any CPU
 		{FCCC4CB7-BAF7-4A57-9F89-E5766FE536C0}.CodeCoverage|Any CPU.Build.0 = CodeCoverage|Any CPU
 		{FCCC4CB7-BAF7-4A57-9F89-E5766FE536C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FCCC4CB7-BAF7-4A57-9F89-E5766FE536C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCCC4CB7-BAF7-4A57-9F89-E5766FE536C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCCC4CB7-BAF7-4A57-9F89-E5766FE536C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.CodeCoverage|Any CPU.ActiveCfg = Release|Any CPU
+		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.CodeCoverage|Any CPU.Build.0 = Release|Any CPU
+		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D344485F-F8CA-4B02-AF3D-D9C6FD556CA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

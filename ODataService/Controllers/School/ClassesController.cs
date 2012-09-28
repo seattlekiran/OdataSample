@@ -1,4 +1,4 @@
-﻿using ContosoSchool;
+﻿using ODataService.Models.School;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace ODataService.Controllers
+namespace ODataService.Controllers.School
 {
     public class ClassesController : ApiController
     {

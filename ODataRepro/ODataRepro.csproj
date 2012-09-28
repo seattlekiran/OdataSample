@@ -90,7 +90,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\Runtime\src\System.Web.Http.OData\System.Web.Http.OData.csproj">
+    <ProjectReference Include="..\..\..\..\..\..\Runtime\src\System.Web.Http.OData\System.Web.Http.OData.csproj">
       <Project>{cf73aaa7-ace9-4c91-afa5-5ec1df18feee}</Project>
       <Name>System.Web.Http.OData</Name>
     </ProjectReference>

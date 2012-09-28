@@ -310,7 +310,7 @@ namespace ODataClient
 
         private static void MyTest()
         {
-            Container cntr = new Container(new Uri("http://kclaptop:50231"));
+            Container cntr = new Container(new Uri("http://vlm00073196:50231"));
             
         }
     }

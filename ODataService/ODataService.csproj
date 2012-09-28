@@ -89,18 +89,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\TraceConfig.cs" />
-    <Compile Include="Controllers\ClassesController.cs" />
+    <Compile Include="Controllers\School\ClassesController.cs" />
     <Compile Include="Controllers\EntitySetController.cs" />
-    <Compile Include="Controllers\InstructorsController.cs" />
+    <Compile Include="Controllers\School\InstructorsController.cs" />
     <Compile Include="Controllers\ProductFamiliesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
-    <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="Controllers\School\StudentsController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductFamily.cs" />
     <Compile Include="Models\ProductsContext.cs" />
+    <Compile Include="Models\School\ContosoSchoolContext.cs" />
+    <Compile Include="Models\School\DbMigrations.cs" />
+    <Compile Include="Models\School\Models.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="ODataActionSelector.cs" />
     <Compile Include="ODataErrors.cs" />
@@ -113,7 +116,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\Runtime\src\System.Web.Http.OData\System.Web.Http.OData.csproj">
+    <ProjectReference Include="..\..\..\..\..\..\Runtime\src\System.Web.Http.OData\System.Web.Http.OData.csproj">
       <Project>{cf73aaa7-ace9-4c91-afa5-5ec1df18feee}</Project>
       <Name>System.Web.Http.OData</Name>
     </ProjectReference>

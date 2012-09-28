@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3df06cf9-1df3-40e1-96c3-fd53b0085fe1" xmlns="urn:schemas-microsoft-com:xml-dataservicemap">
   <MetadataSources>
-    <MetadataSource Address="http://kclaptop:50231/" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:50231/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="service.edmx" MetadataType="Edmx" ID="dd3689a4-347a-46d3-9362-db6352583d6b" SourceId="1" SourceUrl="http://localhost:50231/" />

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="92e015f2-dffa-4c6c-af74-de002b6b1f5c" xmlns="urn:schemas-microsoft-com:xml-dataservicemap">
   <MetadataSources>
-    <MetadataSource Address="http://kclaptop:50231/$metadata" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:50231/$metadata" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.edmx" MetadataType="Edmx" ID="90374512-1e05-4905-b288-969e850e76b7" SourceId="1" SourceUrl="http://kclaptop:50231/$metadata" />
+    <MetadataFile FileName="service.edmx" MetadataType="Edmx" ID="90374512-1e05-4905-b288-969e850e76b7" SourceId="1" SourceUrl="http://localhost:50231/$metadata" />
   </Metadata>
   <Extensions />
   <Parameters>
