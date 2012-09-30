@@ -49,5 +49,33 @@ namespace ODataService.Controllers.School
             dbCtxt.Entry(stud).State = System.Data.EntityState.Modified;
             dbCtxt.SaveChanges();
         }
+
+        public HttpResponseMessage PostLink(int id, string navigationProperty, [FromBody] Uri link)
+        {
+            Student std = dbCtxt.Students.SingleOrDefault(st => st.Id == id);
+
+            switch (navigationProperty)
+            {
+                case "Classes":
+                    // The utility method uses routing (ODataRoutes.GetById should match) to get the value of {id} parameter 
+                    // which is the id of the ProductFamily.
+                    int relatedId = Configuration.GetKeyValue<int>(link);
+                    Class clss = dbCtxt.Classes.SingleOrDefault(cls => cls.Id == relatedId);
+                    std.Classes.Add(clss);
+                    break;
+
+                default:
+                    throw ODataErrors.CreatingLinkNotSupported(Request, navigationProperty);
+            }
+            dbCtxt.SaveChanges();
+
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
+
+        [Queryable]
+        public IQueryable<Class> GetClasses(int parentId)
+        {
+            return dbCtxt.Students.Where(std => std.Id == parentId).SelectMany(std => std.Classes);
+        }
     }
 }

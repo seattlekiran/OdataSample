@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData.Builder;
@@ -45,12 +46,7 @@ namespace ODataService
 
                 // Create the OData formatter and give it the model
                 ODataMediaTypeFormatter odataFormatter = new ODataMediaTypeFormatter(model);
-                configuration.Formatters.Clear();
                 configuration.SetODataFormatter(odataFormatter);
-
-                // Clear formatters and register the OData formatter
-                //configuration.Formatters.Clear();
-                //configuration.Formatters.Insert(0, odataFormatter);
 
                 // Metadata routes to support $metadata and code generation in the WCF Data Service client.
                 configuration.Routes.MapHttpRoute(ODataRouteNames.Metadata, "$metadata", new { Controller = "ODataMetadata", Action = "GetMetadata" });

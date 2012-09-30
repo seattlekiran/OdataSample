@@ -34,6 +34,12 @@ namespace ODataService.Controllers.School
             return dbCtxt.Classes.Where(clss => clss.Id == id).Single();
         }
 
+        [Queryable]
+        public IQueryable<Class> GetClasses()
+        {
+            return dbCtxt.Classes;
+        }
+
         public void DeleteClass(int id)
         {
             var clss = dbCtxt.Classes.Where(c => c.Id == id).Single();
@@ -48,6 +54,12 @@ namespace ODataService.Controllers.School
             dbCtxt.Classes.Attach(clss);
             dbCtxt.Entry(clss).State = System.Data.EntityState.Modified;
             dbCtxt.SaveChanges();
+        }
+
+        [Queryable]
+        public IQueryable<Student> GetStudents(int parentId)
+        {
+            return dbCtxt.Classes.Where(cls => cls.Id == parentId).SelectMany(cls => cls.Students);
         }
     }
 }

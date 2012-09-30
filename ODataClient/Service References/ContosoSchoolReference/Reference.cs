@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 // Original file name:
-// Generation date: 9/28/2012 12:28:47 PM
+// Generation date: 9/28/2012 1:54:34 PM
 namespace ODataClient.ContosoSchoolReference.ODataService.Models.School
 {
     

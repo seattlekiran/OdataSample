@@ -12,7 +12,14 @@ namespace ODataClient
     {
         static void Main(string[] args)
         {
-            ContosoSchoolTests.AddClass();
+            //School.Operations.AddClass();
+            //School.Operations.UpdateClass();
+            //School.Operations.GetAllClasses();
+            //School.Operations.GetAllClassesOfStudent();
+            //School.Operations.DeleteClass();
+            School.Operations.EnrollToClass();
+            //School.Operations.AddStudent();
+            //School.Operations.GetAllStudentsInClass();
             return;
 
             Console.WriteLine("Welcome to the OData Web Api command line client sample.");
