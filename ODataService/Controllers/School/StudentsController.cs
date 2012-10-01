@@ -77,5 +77,10 @@ namespace ODataService.Controllers.School
         {
             return dbCtxt.Students.Where(std => std.Id == parentId).SelectMany(std => std.Classes);
         }
+
+        public HttpResponseMessage EnrollClass(int studentId, int classId)
+        {
+            return null;
+        }
     }
 }
