@@ -171,76 +171,9 @@ namespace ODataService
         static IEdmModel GetImplicitEdmModel()
         {
             ODataModelBuilder modelBuilder = new ODataConventionModelBuilder();
-            //modelBuilder.ComplexType<Address>();
-            //modelBuilder.EntitySet<Product>("Products");
-            //modelBuilder.EntitySet<ProductFamily>("ProductFamilies");
-            //modelBuilder.EntitySet<Supplier>("Suppliers");
-
-            var classEType = modelBuilder.EntitySet<Class>("Classes").EntityType;
-            var studentEType = modelBuilder.EntitySet<Student>("Students").EntityType;
-            var instructorEType = modelBuilder.EntitySet<Instructor>("Instructors").EntityType;
-
-            var enrollClass = studentEType.Action("EnrollClass");
-            enrollClass.Parameter<int>("classId");
-
-            ActionConfiguration test = new ActionConfiguration(modelBuilder, "UnboundedActionExample");
-            test.Parameter<ClassType>("classType");
-            test.CollectionParameter<ClassType>("collOfClassType");
-
-            test.Parameter<string>("stringParam");
-            test.CollectionParameter<string>("collOfString");
-
-            test.Parameter<Nullable<Guid>>("guidParam");
-            test.CollectionParameter<Guid>("collOfGuid");
-
-            test.Parameter<Nullable<char>>("charParam");
-            test.CollectionParameter<char>("collOfChar");
-
-            test.Parameter<Nullable<bool>>("boolParam");
-            test.CollectionParameter<bool>("arrayOfBoolParam");
-            
-            test.Parameter<Nullable<byte>>("byteParam");
-            test.CollectionParameter<byte>("listOfByteParam");
-
-            test.Parameter<Nullable<Int16>>("int16Param");
-            test.CollectionParameter<Int16>("listOfInt16Param");
-            
-            test.Parameter<Int32>("int32Param");
-            test.CollectionParameter<Int32>("listOfInt32Param");
-
-            test.Parameter<Int64>("int64Param");
-            test.Parameter<UInt16>("uint16Param");
-            test.Parameter<UInt32>("uint32Param");
-            test.Parameter<UInt64>("uint64Param");
-
-            test.Parameter<Address>("addressParam");
-            test.CollectionParameter<Address>("listOfAddressParam");
-            test.CollectionParameter<Address[]>("collOfAddressItems");
-
-            test.Parameter<UInt16>("uint16Param");
-            test.Parameter<UInt32>("uint32Param");
-            test.Parameter<UInt64>("uint64Param");
-
-            test.Parameter<double>("doubleParam");
-            test.CollectionParameter<double>("collofDoubleParam");
-
-            test.Parameter<float>("floatParam");
-            test.CollectionParameter<float>("collofFloatParam");
-
-            test.Parameter<Nullable<decimal>>("decimalParam");
-            test.CollectionParameter<decimal>("collofDecimalParam");
-
-            test.Parameter<Nullable<DateTime>>("dateParam");
-            test.CollectionParameter<DateTime>("collofDateParam");
-
-            test.Parameter<Nullable<DateTimeOffset>>("dateOffsetParam");
-            test.CollectionParameter<DateTimeOffset>("collofDateOffsetParam");
-
-            test.Parameter<Nullable<TimeSpan>>("timespanParam");
-            test.CollectionParameter<TimeSpan>("collOftimespanParam");
-
-            //test.Parameter<Uri>("uriParam");
-            //test.CollectionParameter<Uri>("collOfUriParam");
+            modelBuilder.EntitySet<Product>("Products");
+            modelBuilder.EntitySet<ProductFamily>("ProductFamilies");
+            modelBuilder.EntitySet<Supplier>("Suppliers");
 
             return modelBuilder.GetEdmModel();
         }
