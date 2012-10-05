@@ -175,7 +175,7 @@ namespace ODataService
             var productFamilies = modelBuilder.EntitySet<ProductFamily>("ProductFamilies");
             var suppliers = modelBuilder.EntitySet<Supplier>("Suppliers");
 
-            var config = product.Action("ExtendSupportDate");
+            var config = products.EntityType.Action("ExtendSupportDate");
             config.Parameter<DateTime>("newDate");
             config.ReturnsFromEntitySet<Product>("Products");
             
