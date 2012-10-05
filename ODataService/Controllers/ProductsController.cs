@@ -186,6 +186,17 @@ namespace ODataService.Controllers
             return _db.Products.Where(p => p.ID == parentId).Select(p => p.Family).SingleOrDefault();
         }
 
+        public Product ExtendSupportDate(int parentId, ODataActionParameters actionParams)
+        {
+            Product prd = _db.Products.Where(p => p.ID == parentId).Single();
+
+            prd.SupportedUntil = (DateTime)actionParams["newDate"];
+
+            _db.SaveChanges();
+
+            return prd;
+        }
+
         protected override void Dispose(bool disposing)
         {
             _db.Dispose();

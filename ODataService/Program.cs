@@ -170,11 +170,15 @@ namespace ODataService
         /// <returns>An implicitly configured model</returns>    
         static IEdmModel GetImplicitEdmModel()
         {
-            ODataModelBuilder modelBuilder = new ODataConventionModelBuilder();
-            modelBuilder.EntitySet<Product>("Products");
-            modelBuilder.EntitySet<ProductFamily>("ProductFamilies");
-            modelBuilder.EntitySet<Supplier>("Suppliers");
+            ODataConventionModelBuilder modelBuilder = new ODataConventionModelBuilder();
+            var product = modelBuilder.EntitySet<Product>("Products").EntityType;
+            var productFamily = modelBuilder.EntitySet<ProductFamily>("ProductFamilies").EntityType;
+            var supplier = modelBuilder.EntitySet<Supplier>("Suppliers").EntityType;
 
+            var config = product.Action("ExtendSupportDate");
+            config.Parameter<DateTime>("newDate");
+            config.ReturnsFromEntitySet<Product>("Products");
+            
             return modelBuilder.GetEdmModel();
         }
     }
