@@ -171,9 +171,9 @@ namespace ODataService
         static IEdmModel GetImplicitEdmModel()
         {
             ODataConventionModelBuilder modelBuilder = new ODataConventionModelBuilder();
-            var product = modelBuilder.EntitySet<Product>("Products").EntityType;
-            var productFamily = modelBuilder.EntitySet<ProductFamily>("ProductFamilies").EntityType;
-            var supplier = modelBuilder.EntitySet<Supplier>("Suppliers").EntityType;
+            var products = modelBuilder.EntitySet<Product>("Products");
+            var productFamilies = modelBuilder.EntitySet<ProductFamily>("ProductFamilies");
+            var suppliers = modelBuilder.EntitySet<Supplier>("Suppliers");
 
             var config = product.Action("ExtendSupportDate");
             config.Parameter<DateTime>("newDate");
