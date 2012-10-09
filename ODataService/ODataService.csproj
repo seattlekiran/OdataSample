@@ -97,8 +97,10 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\School\StudentsController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
+    <Compile Include="Controllers\VehiclesController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\InheritanceModels.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductFamily.cs" />
     <Compile Include="Models\ProductsContext.cs" />

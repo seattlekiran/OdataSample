@@ -186,13 +186,13 @@ namespace ODataService.Controllers
             return _db.Products.Where(p => p.ID == parentId).Select(p => p.Family).SingleOrDefault();
         }
 
-        public Product ExtendSupportDate(int parentId, ODataActionParameters actionParams)
+        public Product ExtendSupportDate(int boundId, ODataActionParameters actionParams)
         {
-            Product prd = _db.Products.Where(p => p.ID == parentId).Single();
+            Product prd = _db.Products.Where(p => p.ID == boundId).Single();
 
-            prd.SupportedUntil = (DateTime)actionParams["newDate"];
+            //prd.SupportedUntil = (DateTime)actionParams["newDate"];
 
-            _db.SaveChanges();
+            //_db.SaveChanges();
 
             return prd;
         }

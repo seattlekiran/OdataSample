@@ -3,6 +3,7 @@ using ODataService.Models;
 using ODataService.Models.School;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Net.Http.Formatting;
@@ -47,10 +48,16 @@ namespace ODataService
                 // Create the OData formatter and give it the model
                 ODataMediaTypeFormatter odataFormatter = new ODataMediaTypeFormatter(model);
                 configuration.SetODataFormatter(odataFormatter);
-
+                
                 // Metadata routes to support $metadata and code generation in the WCF Data Service client.
                 configuration.Routes.MapHttpRoute(ODataRouteNames.Metadata, "$metadata", new { Controller = "ODataMetadata", Action = "GetMetadata" });
                 configuration.Routes.MapHttpRoute(ODataRouteNames.ServiceDocument, "", new { Controller = "ODataMetadata", Action = "GetServiceDocument" });
+
+                
+                //configuration.Routes.MapHttpRoute(ODataRouteNames.InvokeBoundAction, "{controller}({boundId})/{odataAction}");
+                configuration.Routes.MapHttpRoute(ODataRouteNames.InvokeBoundAction, "Products({boundId})/ExtendSupportDate", new { controller = "Products", odataAction = "ExtendSupportDate" });
+                configuration.Routes.MapHttpRoute("CarSetWheelCount", "Cars({boundId})/SetWheelCount", new { controller = "Cars", odataAction = "SetWheelCount" });
+                configuration.Routes.MapHttpRoute("MotorcyclesSetWheelCount", "Motorcycles({boundId})/SetWheelCount", new { controller = "Motorcycles", odataAction = "SetWheelCount" });
 
                 // Relationship routes (notice the parameters is {type}Id not id, this avoids colliding with GetById(id)).
                 configuration.Routes.MapHttpRoute(ODataRouteNames.PropertyNavigation, "{controller}({parentId})/{navigationProperty}");
@@ -98,6 +105,7 @@ namespace ODataService
             return GetImplicitEdmModel();
             // or build the model by hand
             //return GetExplicitEdmModel();
+            //return GetImplicit_InheritanceModel();
         }
 
         /// <summary>
@@ -108,8 +116,31 @@ namespace ODataService
         {
             ODataModelBuilder modelBuilder = new ODataModelBuilder();
 
+            //var type1s = modelBuilder.EntitySet<Type1>("Type1s");
+            //type1s.HasEditLink(entityContext => entityContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Type1s", id = entityContext.EntityInstance.Id }));
+
+            //var type2s = modelBuilder.EntitySet<Type2>("Type2s");
+            //type2s.HasEditLink(entityContext => entityContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Type2s", id = entityContext.EntityInstance.Id }));
+
+            //var type1 = type1s.EntityType;
+            //type1.HasKey(p => p.Id);
+            //type1.Property(p => p.Name);
+
+            //var type2 = type2s.EntityType;
+            //type2.HasKey(p => p.Id);
+            //type2.Property(p => p.Name);
+
+            //type1s.HasRequiredBinding(p => p.Type2Prop, type2s);
+            //type2s.HasRequiredBinding(p => p.Type1Prop, type1s);
+
+            //return modelBuilder.GetEdmModel();
+
             var products = modelBuilder.EntitySet<Product>("Products");
-            products.HasEditLink(entityContext => entityContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Products", id = entityContext.EntityInstance.ID }));
+            //products.HasEditLink(entityContext => entityContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Products", id = entityContext.EntityInstance.ID }));
+            products.HasEditLink(instanceContext =>
+                {
+                    return instanceContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Products", id = instanceContext.EntityInstance.ID });
+                });
 
             var suppliers = modelBuilder.EntitySet<Supplier>("Suppliers");
             suppliers.HasEditLink(entityContext => entityContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Suppliers", id = entityContext.EntityInstance.ID }));
@@ -178,7 +209,25 @@ namespace ODataService
             var config = products.EntityType.Action("ExtendSupportDate");
             config.Parameter<DateTime>("newDate");
             config.ReturnsFromEntitySet<Product>("Products");
-            
+
+            return modelBuilder.GetEdmModel();
+        }
+
+        static IEdmModel GetImplicit_InheritanceModel()
+        {
+            ODataConventionModelBuilder modelBuilder = new ODataConventionModelBuilder();
+            var vehicles = modelBuilder.EntitySet<Vehicle>("Vehicles");
+            var cars = modelBuilder.EntitySet<Car>("Cars");
+            var motorcycles = modelBuilder.EntitySet<Motorcycle>("Motorcycles");
+
+            var config = modelBuilder.Entity<Motorcycle>().Action("SetWheelCount");
+            config.Parameter<int>("newCount");
+            config.ReturnsFromEntitySet<Motorcycle>("Motorcycles");
+
+            var config2 = modelBuilder.Entity<Car>().Action("SetWheelCount");
+            config2.Parameter<int>("newCount");
+            config2.ReturnsFromEntitySet<Car>("Cars");
+
             return modelBuilder.GetEdmModel();
         }
     }
@@ -190,4 +239,20 @@ namespace ODataService
         Grad = 2,
         Other = 4
     }
+
+    public class Type1
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public Type2 Type2Prop { get; set; }
+    }
+
+    public class Type2
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public Type1 Type1Prop { get; set; }
+    }
+
+
 }
