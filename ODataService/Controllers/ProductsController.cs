@@ -1,5 +1,6 @@
 ﻿using ODataService.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
@@ -190,11 +191,24 @@ namespace ODataService.Controllers
         {
             Product prd = _db.Products.Where(p => p.ID == boundId).Single();
 
-            //prd.SupportedUntil = (DateTime)actionParams["newDate"];
+            ////prd.SupportedUntil = (DateTime)actionParams["newDate"];
 
-            //_db.SaveChanges();
+            ////_db.SaveChanges();
 
             return prd;
+        }
+
+        public IEnumerable<Product> ExtendSupportDates(ODataActionParameters actionParams)
+        {
+            //Product prd = _db.Products.Where(p => p.ID == boundId).Single();
+
+            ////prd.SupportedUntil = (DateTime)actionParams["newDate"];
+
+            ////_db.SaveChanges();
+
+            //return prd;
+
+            return _db.Products;
         }
 
         protected override void Dispose(bool disposing)

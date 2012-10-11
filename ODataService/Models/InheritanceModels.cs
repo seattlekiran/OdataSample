@@ -7,7 +7,18 @@ using System.Threading.Tasks;
 
 namespace ODataService.Models
 {
-    public abstract class Vehicle
+    //public abstract class Vehicle
+    //{
+    //    public int Id { get; set; }
+
+    //    public string Model { get; set; }
+
+    //    public string Name { get; set; }
+
+    //    public abstract int WheelCount { get; }
+    //}
+
+    public class Vehicle
     {
         public int Id { get; set; }
 
@@ -15,7 +26,7 @@ namespace ODataService.Models
 
         public string Name { get; set; }
 
-        public abstract int WheelCount { get; }
+        public virtual int WheelCount { get; set; }
     }
 
     public class Car : Vehicle

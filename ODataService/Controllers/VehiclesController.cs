@@ -9,41 +9,67 @@ using System.Web.Http.OData;
 
 namespace ODataService.Controllers
 {
-    //public class VehiclesController : ApiController
-    //{
-    //    public IEnumerable<Vehicle> Get()
-    //    {
-    //        List<Vehicle> vehicles = new List<Vehicle>();
-    //        vehicles.Add(new Motorcycle()
-    //        {
-    //            Id = 1,
-    //            Model = "Ducati",
-    //            Name = "Z50",
-    //            CanDoAWheelie = true,
-    //        });
-
-    //        return vehicles;
-    //    }
-    //}
-
-    public class MotorcyclesController : ApiController
+    public class VehiclesController : ApiController
     {
-        //public IEnumerable<Motorcycle> Get()
-        //{
-        //    List<Motorcycle> vehicles = new List<Motorcycle>();
-        //    vehicles.Add(new Motorcycle()
-        //    {
-        //        Id = 1,
-        //        Model = "Ducati",
-        //        Name = "Z50",
-        //        CanDoAWheelie = true,
-        //    });
+        public IEnumerable<Vehicle> Get()
+        {
+            List<Vehicle> vehicles = new List<Vehicle>();
+            vehicles.Add(new Vehicle()
+            {
+                Id = 1,
+                Model = "Toyota",
+                Name = "Tacoma",
+                WheelCount = 3
+            });
+            vehicles.Add(new Car()
+            {
+                Id = 2,
+                Model = "BMW",
+                Name = "Mini",
+            });
 
-        //    return vehicles;
-        //}
+            vehicles.Add(new Motorcycle()
+            {
+                Id = 3,
+                Model = "Ducati",
+                Name = "Z50",
+                WheelCount = 3
+            });
 
-        [HttpPost]
-        public Motorcycle SetWheelCount(int boundId, ODataActionParameters actionParams)
+
+            return vehicles;
+        }
+
+        public virtual Vehicle Drive(int boundId, ODataActionParameters actionParams)
+        {
+            return new Vehicle()
+            {
+                Id = 1,
+                Model = "Toyota",
+                Name = "Tacoma",
+                WheelCount = 3
+            };
+        }
+    }
+
+    public class MotorcyclesController : VehiclesController
+    {
+        public IEnumerable<Motorcycle> Get()
+        {
+            List<Motorcycle> vehicles = new List<Motorcycle>();
+            vehicles.Add(new SportBike()
+            {
+                Id = 1,
+                Model = "Ducati",
+                Name = "Z50",
+                 CanDoAWheelie = true,
+                  TopSpeed = 350
+            });
+
+            return vehicles;
+        }
+
+        public override Vehicle Drive(int boundId, ODataActionParameters actionParams)
         {
             return new Motorcycle()
             {
@@ -55,29 +81,30 @@ namespace ODataService.Controllers
         }
     }
 
-    public class CarsController : ApiController
+    public class CarsController : VehiclesController
     {
-        //public IEnumerable<Car> Get()
-        //{
-        //    List<Car> vehicles = new List<Car>();
-        //    vehicles.Add(new Car()
-        //    {
-        //        Id = 1,
-        //        Model = "Ducati",
-        //        Name = "Z50"
-        //    });
+        public IEnumerable<Car> Get()
+        {
+            List<Car> cars = new List<Car>();
+            cars.Add(new Car()
+            {
+                Id = 1,
+                Model = "BMW",
+                Name = "Mini",
+                 SeatingCapacity = 2
+            });
 
-        //    return vehicles;
-        //}
+            return cars;
+        }
 
-        [HttpPost]
-        public Car SetWheelCount(int boundId, ODataActionParameters actionParams)
+        public override Vehicle Drive(int boundId, ODataActionParameters actionParams)
         {
             return new Car()
             {
                 Id = 1,
-                Model = "Ducati",
-                Name = "Z50",
+                Model = "BMW",
+                Name = "Mini",
+                SeatingCapacity = 2
             };
         }
     }

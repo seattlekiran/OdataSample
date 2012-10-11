@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\TraceConfig.cs" />
+    <Compile Include="Controllers\Contoso\EmployeesController.cs" />
     <Compile Include="Controllers\School\ClassesController.cs" />
     <Compile Include="Controllers\EntitySetController.cs" />
     <Compile Include="Controllers\School\InstructorsController.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Controllers\VehiclesController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Contoso\Employee.cs" />
     <Compile Include="Models\InheritanceModels.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductFamily.cs" />
@@ -127,6 +129,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

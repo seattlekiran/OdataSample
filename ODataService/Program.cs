@@ -1,11 +1,13 @@
 ﻿using Microsoft.Data.Edm;
 using ODataService.Models;
+using ODataService.Models.Contoso;
 using ODataService.Models.School;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -29,12 +31,13 @@ namespace ODataService
 
             try
             {
-                //DbMigrator migrator = new DbMigrator(new ContosoSchoolMigrationConfiguration());
+                //DbMigrator migrator = new DbMigrator(new Migrations.Configuration());
                 //migrator.Update(null);
+                //return;
 
                 // Set up server configuration
                 HttpSelfHostConfiguration configuration = new HttpSelfHostConfiguration(_baseAddress);
-                configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Never;
+                configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
                 //TraceConfig.Register(configuration);
 
@@ -48,18 +51,14 @@ namespace ODataService
                 // Create the OData formatter and give it the model
                 ODataMediaTypeFormatter odataFormatter = new ODataMediaTypeFormatter(model);
                 configuration.SetODataFormatter(odataFormatter);
-                
+
                 // Metadata routes to support $metadata and code generation in the WCF Data Service client.
                 configuration.Routes.MapHttpRoute(ODataRouteNames.Metadata, "$metadata", new { Controller = "ODataMetadata", Action = "GetMetadata" });
                 configuration.Routes.MapHttpRoute(ODataRouteNames.ServiceDocument, "", new { Controller = "ODataMetadata", Action = "GetServiceDocument" });
 
-                
-                //configuration.Routes.MapHttpRoute(ODataRouteNames.InvokeBoundAction, "{controller}({boundId})/{odataAction}");
-                configuration.Routes.MapHttpRoute(ODataRouteNames.InvokeBoundAction, "Products({boundId})/ExtendSupportDate", new { controller = "Products", odataAction = "ExtendSupportDate" });
-                configuration.Routes.MapHttpRoute("CarSetWheelCount", "Cars({boundId})/SetWheelCount", new { controller = "Cars", odataAction = "SetWheelCount" });
-                configuration.Routes.MapHttpRoute("MotorcyclesSetWheelCount", "Motorcycles({boundId})/SetWheelCount", new { controller = "Motorcycles", odataAction = "SetWheelCount" });
-
                 // Relationship routes (notice the parameters is {type}Id not id, this avoids colliding with GetById(id)).
+                configuration.Routes.MapHttpRoute("ExtendSupportDateOnProductsColl", "Products/ExtendSupportDates", new { controller = "Products", action = "ExtendSupportDates" });
+                configuration.Routes.MapHttpRoute(ODataRouteNames.InvokeBoundAction, "Products({boundId})/ExtendSupportDate", new { controller = "Products", odataAction = "ExtendSupportDate" });
                 configuration.Routes.MapHttpRoute(ODataRouteNames.PropertyNavigation, "{controller}({parentId})/{navigationProperty}");
 
                 // Route for manipulating links.
@@ -103,9 +102,13 @@ namespace ODataService
         {
             // build the model by convention
             return GetImplicitEdmModel();
+
             // or build the model by hand
             //return GetExplicitEdmModel();
+
             //return GetImplicit_InheritanceModel();
+
+            //return GetContosoModel();
         }
 
         /// <summary>
@@ -205,10 +208,31 @@ namespace ODataService
             var products = modelBuilder.EntitySet<Product>("Products");
             var productFamilies = modelBuilder.EntitySet<ProductFamily>("ProductFamilies");
             var suppliers = modelBuilder.EntitySet<Supplier>("Suppliers");
-
-            var config = products.EntityType.Action("ExtendSupportDate");
+            
+            var config = products.EntityType.Collection.Action("ExtendSupportDates");
             config.Parameter<DateTime>("newDate");
-            config.ReturnsFromEntitySet<Product>("Products");
+            config.Parameter<int[]>("ids");
+            config.ReturnsCollectionFromEntitySet<Product>("Products");
+
+            var config2 = products.EntityType.Action("ExtendSupportDate");
+            config2.Parameter<DateTime>("newDate");
+            config2.ReturnsFromEntitySet<Product>("Products");
+            config2.HasActionLink(eic =>
+                {
+                    //Do not advertise 'ExtendSupportDate' for discontinued products
+                    if (eic.EntityType.Name == "DiscontinuedProduct")
+                        return null;
+
+                    //Advertise for the rest of them
+                    Product pd = (Product)eic.EntityInstance;
+
+                    return new Uri(eic.UrlHelper.Link(ODataRouteNames.InvokeBoundAction, new
+                    {
+                        controller = eic.EntitySet.Name,
+                        boundId = pd.ID,
+                        odataAction = "ExtendSupportDate"
+                    }));
+                });
 
             return modelBuilder.GetEdmModel();
         }
@@ -220,39 +244,25 @@ namespace ODataService
             var cars = modelBuilder.EntitySet<Car>("Cars");
             var motorcycles = modelBuilder.EntitySet<Motorcycle>("Motorcycles");
 
-            var config = modelBuilder.Entity<Motorcycle>().Action("SetWheelCount");
-            config.Parameter<int>("newCount");
-            config.ReturnsFromEntitySet<Motorcycle>("Motorcycles");
+            //var config = cars.EntityType.Action("Drive");
+            //config.ReturnsFromEntitySet<Car>("Cars");
 
-            var config2 = modelBuilder.Entity<Car>().Action("SetWheelCount");
-            config2.Parameter<int>("newCount");
-            config2.ReturnsFromEntitySet<Car>("Cars");
+            //var config1 = motorcycles.EntityType.Action("Drive");
+            //config1.ReturnsFromEntitySet<Motorcycle>("Motorcycles");
+
+            return modelBuilder.GetEdmModel();
+        }
+
+        static IEdmModel GetContosoModel()
+        {
+            ODataConventionModelBuilder modelBuilder = new ODataConventionModelBuilder();
+            var employees = modelBuilder.EntitySet<Employee>("Employees");
 
             return modelBuilder.GetEdmModel();
         }
     }
 
-    [Flags]
-    public enum ClassType
+    public class DiscontinuedProduct : Product
     {
-        Undergrad = 1,
-        Grad = 2,
-        Other = 4
     }
-
-    public class Type1
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public Type2 Type2Prop { get; set; }
-    }
-
-    public class Type2
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public Type1 Type1Prop { get; set; }
-    }
-
-
 }
