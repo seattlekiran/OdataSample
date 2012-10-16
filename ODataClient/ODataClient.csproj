@@ -70,6 +70,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.datasvcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\EmployeesContext\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.datasvcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\InheritanceContext\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.datasvcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\MSProducts\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -83,10 +93,18 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Service References\ContosoSchoolReference\service.edmx" />
+    <None Include="Service References\EmployeesContext\service.edmx" />
+    <None Include="Service References\InheritanceContext\service.edmx" />
     <None Include="Service References\MSProducts\service.edmx" />
   </ItemGroup>
   <ItemGroup>
     <ServiceReferenceMetadataStorage Include="Service References\ContosoSchoolReference\">
+      <Type>datasvcmap</Type>
+    </ServiceReferenceMetadataStorage>
+    <ServiceReferenceMetadataStorage Include="Service References\EmployeesContext\">
+      <Type>datasvcmap</Type>
+    </ServiceReferenceMetadataStorage>
+    <ServiceReferenceMetadataStorage Include="Service References\InheritanceContext\">
       <Type>datasvcmap</Type>
     </ServiceReferenceMetadataStorage>
     <ServiceReferenceMetadataStorage Include="Service References\MSProducts\">
@@ -101,6 +119,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ContosoSchoolReference\Reference.datasvcmap">
+      <Generator>DataServicesCoreClientGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\InheritanceContext\Reference.datasvcmap">
+      <Generator>DataServicesCoreClientGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EmployeesContext\Reference.datasvcmap">
       <Generator>DataServicesCoreClientGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

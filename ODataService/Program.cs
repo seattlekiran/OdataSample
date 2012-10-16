@@ -57,8 +57,7 @@ namespace ODataService
                 configuration.Routes.MapHttpRoute(ODataRouteNames.ServiceDocument, "", new { Controller = "ODataMetadata", Action = "GetServiceDocument" });
 
                 // Relationship routes (notice the parameters is {type}Id not id, this avoids colliding with GetById(id)).
-                configuration.Routes.MapHttpRoute("ExtendSupportDateOnProductsColl", "Products/ExtendSupportDates", new { controller = "Products", action = "ExtendSupportDates" });
-                configuration.Routes.MapHttpRoute(ODataRouteNames.InvokeBoundAction, "Products({boundId})/ExtendSupportDate", new { controller = "Products", odataAction = "ExtendSupportDate" });
+                configuration.Routes.MapHttpRoute(ODataRouteNames.InvokeBoundAction, "{controller}({boundId})/{odataAction}");
                 configuration.Routes.MapHttpRoute(ODataRouteNames.PropertyNavigation, "{controller}({parentId})/{navigationProperty}");
 
                 // Route for manipulating links.
@@ -101,10 +100,10 @@ namespace ODataService
         static IEdmModel GetEdmModel()
         {
             // build the model by convention
-            return GetImplicitEdmModel();
+            //return GetImplicitEdmModel();
 
             // or build the model by hand
-            //return GetExplicitEdmModel();
+            return GetExplicitEdmModel();
 
             //return GetImplicit_InheritanceModel();
 
@@ -118,33 +117,9 @@ namespace ODataService
         static IEdmModel GetExplicitEdmModel()
         {
             ODataModelBuilder modelBuilder = new ODataModelBuilder();
-
-            //var type1s = modelBuilder.EntitySet<Type1>("Type1s");
-            //type1s.HasEditLink(entityContext => entityContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Type1s", id = entityContext.EntityInstance.Id }));
-
-            //var type2s = modelBuilder.EntitySet<Type2>("Type2s");
-            //type2s.HasEditLink(entityContext => entityContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Type2s", id = entityContext.EntityInstance.Id }));
-
-            //var type1 = type1s.EntityType;
-            //type1.HasKey(p => p.Id);
-            //type1.Property(p => p.Name);
-
-            //var type2 = type2s.EntityType;
-            //type2.HasKey(p => p.Id);
-            //type2.Property(p => p.Name);
-
-            //type1s.HasRequiredBinding(p => p.Type2Prop, type2s);
-            //type2s.HasRequiredBinding(p => p.Type1Prop, type1s);
-
-            //return modelBuilder.GetEdmModel();
-
             var products = modelBuilder.EntitySet<Product>("Products");
-            //products.HasEditLink(entityContext => entityContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Products", id = entityContext.EntityInstance.ID }));
-            products.HasEditLink(instanceContext =>
-                {
-                    return instanceContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Products", id = instanceContext.EntityInstance.ID });
-                });
-
+            products.HasEditLink(entityContext => entityContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Products", id = entityContext.EntityInstance.ID }));
+            
             var suppliers = modelBuilder.EntitySet<Supplier>("Suppliers");
             suppliers.HasEditLink(entityContext => entityContext.UrlHelper.Link(ODataRouteNames.GetById, new { controller = "Suppliers", id = entityContext.EntityInstance.ID }));
 
@@ -194,6 +169,11 @@ namespace ODataService
                 supplier.NavigationProperties,
                 (entityContext, navigationProperty) => new Uri(entityContext.UrlHelper.Link(ODataRouteNames.PropertyNavigation, new { Controller = "Suppliers", parentId = entityContext.EntityInstance.ID, NavigationProperty = navigationProperty.Name })));
 
+            var extendSupportDateAction = product.Action("ExtendSupportDate");
+            extendSupportDateAction.Parameter<DateTime>("newDate");
+            extendSupportDateAction.ReturnsFromEntitySet<Product>("Products");
+            SetupExtendSupportDateActionLink(extendSupportDateAction);
+
             return modelBuilder.GetEdmModel();
         }
 
@@ -209,32 +189,45 @@ namespace ODataService
             var productFamilies = modelBuilder.EntitySet<ProductFamily>("ProductFamilies");
             var suppliers = modelBuilder.EntitySet<Supplier>("Suppliers");
             
-            var config = products.EntityType.Collection.Action("ExtendSupportDates");
-            config.Parameter<DateTime>("newDate");
-            config.Parameter<int[]>("ids");
-            config.ReturnsCollectionFromEntitySet<Product>("Products");
-
             var config2 = products.EntityType.Action("ExtendSupportDate");
             config2.Parameter<DateTime>("newDate");
             config2.ReturnsFromEntitySet<Product>("Products");
-            config2.HasActionLink(eic =>
-                {
-                    //Do not advertise 'ExtendSupportDate' for discontinued products
-                    if (eic.EntityType.Name == "DiscontinuedProduct")
-                        return null;
-
-                    //Advertise for the rest of them
-                    Product pd = (Product)eic.EntityInstance;
-
-                    return new Uri(eic.UrlHelper.Link(ODataRouteNames.InvokeBoundAction, new
-                    {
-                        controller = eic.EntitySet.Name,
-                        boundId = pd.ID,
-                        odataAction = "ExtendSupportDate"
-                    }));
-                });
+            SetupExtendSupportDateActionLink(config2);
 
             return modelBuilder.GetEdmModel();
+        }
+
+        private static void SetupExtendSupportDateActionLink(ActionConfiguration extendSupportDateAction)
+        {
+            extendSupportDateAction.HasActionLink(eic =>
+            {
+                Product pd = (Product)eic.EntityInstance;
+
+                return new Uri(eic.UrlHelper.Link(ODataRouteNames.InvokeBoundAction, new
+                {
+                    controller = eic.EntitySet.Name,
+                    boundId = pd.ID,
+                    odataAction = "ExtendSupportDate"
+                }));
+            });
+
+            //extendSupportDateAction.HasActionLink(ActionLinkBuilder.CreateActionLinkFactory(
+            //baseFactory: eic =>
+            //{
+            //    Product pd = (Product)eic.EntityInstance;
+
+            //    return new Uri(eic.UrlHelper.Link(ODataRouteNames.InvokeBoundAction, new
+            //    {
+            //        controller = eic.EntitySet.Name,
+            //        boundId = pd.ID,
+            //        odataAction = "ExtendSupportDate"
+            //    }));
+            //}, 
+            //expensiveAvailabilityCheck: eic =>
+            //{
+            //    //do some check here and return true or false
+            //    return true;
+            //}));
         }
 
         static IEdmModel GetImplicit_InheritanceModel()
@@ -243,12 +236,6 @@ namespace ODataService
             var vehicles = modelBuilder.EntitySet<Vehicle>("Vehicles");
             var cars = modelBuilder.EntitySet<Car>("Cars");
             var motorcycles = modelBuilder.EntitySet<Motorcycle>("Motorcycles");
-
-            //var config = cars.EntityType.Action("Drive");
-            //config.ReturnsFromEntitySet<Car>("Cars");
-
-            //var config1 = motorcycles.EntityType.Action("Drive");
-            //config1.ReturnsFromEntitySet<Motorcycle>("Motorcycles");
 
             return modelBuilder.GetEdmModel();
         }

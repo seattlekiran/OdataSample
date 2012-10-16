@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="App_Start\TraceConfig.cs" />
     <Compile Include="Controllers\Contoso\EmployeesController.cs" />
+    <Compile Include="Controllers\PersonsController.cs" />
     <Compile Include="Controllers\School\ClassesController.cs" />
     <Compile Include="Controllers\EntitySetController.cs" />
     <Compile Include="Controllers\School\InstructorsController.cs" />
@@ -121,15 +122,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\Runtime\src\System.Web.Http.OData\System.Web.Http.OData.csproj">
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Runtime\src\System.Web.Http.OData\System.Web.Http.OData.csproj">
       <Project>{cf73aaa7-ace9-4c91-afa5-5ec1df18feee}</Project>
       <Name>System.Web.Http.OData</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

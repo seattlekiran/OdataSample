@@ -1,13 +1,6 @@
 ﻿<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
   <edmx:DataServices m:DataServiceVersion="1.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
     <Schema Namespace="ODataService.Models" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-      <ComplexType Name="Address">
-        <Property Name="Street" Type="Edm.String" />
-        <Property Name="City" Type="Edm.String" />
-        <Property Name="State" Type="Edm.String" />
-        <Property Name="ZipCode" Type="Edm.String" />
-        <Property Name="Country" Type="Edm.String" />
-      </ComplexType>
       <EntityType Name="Product">
         <Key>
           <PropertyRef Name="ID" />
@@ -40,6 +33,21 @@
         <Property Name="Country" Type="Edm.String" />
         <NavigationProperty Name="ProductFamilies" Relationship="ODataService.Models.ODataService_Models_Supplier_ProductFamilies_ODataService_Models_ProductFamily_ProductFamiliesPartner" ToRole="ProductFamilies" FromRole="ProductFamiliesPartner" />
       </EntityType>
+      <ComplexType Name="Address">
+        <Property Name="Street" Type="Edm.String" />
+        <Property Name="City" Type="Edm.String" />
+        <Property Name="State" Type="Edm.String" />
+        <Property Name="ZipCode" Type="Edm.String" />
+        <Property Name="Country" Type="Edm.String" />
+        <Property Name="SomeOtherType" Type="ODataService.Models.SomeOtherType" />
+      </ComplexType>
+      <ComplexType Name="SomeOtherType">
+        <Property Name="Street" Type="Edm.String" />
+        <Property Name="City" Type="Edm.String" />
+        <Property Name="State" Type="Edm.String" />
+        <Property Name="ZipCode" Type="Edm.String" />
+        <Property Name="Country" Type="Edm.String" />
+      </ComplexType>
       <Association Name="ODataService_Models_Product_Family_ODataService_Models_ProductFamily_FamilyPartner">
         <End Type="ODataService.Models.ProductFamily" Role="Family" Multiplicity="0..1" />
         <End Type="ODataService.Models.Product" Role="FamilyPartner" Multiplicity="0..1" />
@@ -57,11 +65,27 @@
         <End Type="ODataService.Models.Supplier" Role="ProductFamiliesPartner" Multiplicity="0..1" />
       </Association>
     </Schema>
+    <Schema Namespace="ODataService" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <EntityType Name="DiscontinuedProduct" BaseType="ODataService.Models.Product" />
+    </Schema>
     <Schema Namespace="Default" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
       <EntityContainer Name="Container">
         <EntitySet Name="Products" EntityType="ODataService.Models.Product" />
         <EntitySet Name="ProductFamilies" EntityType="ODataService.Models.ProductFamily" />
         <EntitySet Name="Suppliers" EntityType="ODataService.Models.Supplier" />
+        <FunctionImport Name="ExtendSupportDates" ReturnType="Collection(ODataService.Models.Product)" IsBindable="true" EntitySet="Products" m:IsAlwaysBindable="true">
+          <Parameter Name="bindingParameter" Type="Collection(ODataService.Models.Product)" Nullable="false" />
+          <Parameter Name="newDate" Type="Edm.DateTime" />
+          <Parameter Name="ids" Type="Collection(Edm.String)" Nullable="false" FixedLength="false" Unicode="false" />
+        </FunctionImport>
+        <FunctionImport Name="ExtendSupportDate" ReturnType="ODataService.Models.Product" IsBindable="true" EntitySet="Products" m:IsAlwaysBindable="true">
+          <Parameter Name="bindingParameter" Type="ODataService.Models.Product" />
+          <Parameter Name="newDate" Type="Edm.DateTime" />
+          <Parameter Name="addresses" Type="Collection(ODataService.Models.Address)" Nullable="false" />
+        </FunctionImport>
+        <FunctionImport Name="DiscontinueProduct">
+          <Parameter Name="id" Type="Edm.Int32" />
+        </FunctionImport>
         <AssociationSet Name="ODataService_Models_Product_Family_ODataService_Models_ProductFamily_FamilyPartnerSet" Association="ODataService.Models.ODataService_Models_Product_Family_ODataService_Models_ProductFamily_FamilyPartner">
           <End Role="FamilyPartner" EntitySet="Products" />
           <End Role="Family" EntitySet="ProductFamilies" />

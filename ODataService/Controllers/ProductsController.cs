@@ -189,6 +189,11 @@ namespace ODataService.Controllers
 
         public Product ExtendSupportDate(int boundId, ODataActionParameters actionParams)
         {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, this.ModelState));
+            }
+
             Product prd = _db.Products.Where(p => p.ID == boundId).Single();
 
             ////prd.SupportedUntil = (DateTime)actionParams["newDate"];
@@ -209,6 +214,19 @@ namespace ODataService.Controllers
             //return prd;
 
             return _db.Products;
+        }
+
+        public string DiscontinueProduct(ODataActionParameters actionParams)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState));
+            }
+
+            int productToDiscontinue = (int)actionParams["id"];
+
+            //return _db.Products.Where(p => p.ID == productToDiscontinue).Single();
+            return "success";
         }
 
         protected override void Dispose(bool disposing)

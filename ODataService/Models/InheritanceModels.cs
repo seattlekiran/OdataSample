@@ -7,18 +7,7 @@ using System.Threading.Tasks;
 
 namespace ODataService.Models
 {
-    //public abstract class Vehicle
-    //{
-    //    public int Id { get; set; }
-
-    //    public string Model { get; set; }
-
-    //    public string Name { get; set; }
-
-    //    public abstract int WheelCount { get; }
-    //}
-
-    public class Vehicle
+    public abstract class Vehicle
     {
         public int Id { get; set; }
 
@@ -26,19 +15,33 @@ namespace ODataService.Models
 
         public string Name { get; set; }
 
-        public virtual int WheelCount { get; set; }
+        //public abstract int WheelCount { get; set; }
     }
+
+    //public class Vehicle
+    //{
+    //    public int Id { get; set; }
+
+    //    public string Model { get; set; }
+
+    //    public string Name { get; set; }
+
+    //    public virtual int WheelCount { get; set; }
+    //}
 
     public class Car : Vehicle
     {
-        public override int WheelCount { get { return 4; } }
+        //public override int WheelCount { get { return 4; } }
 
         public int SeatingCapacity { get; set; }
+
+        [MaxLength(5)]
+        public string Something { get; set; }
     }
 
     public class Motorcycle : Vehicle
     {
-        public override int WheelCount { get { return 2; } }
+        //public override int WheelCount { get { return 2; } }
 
         public bool CanDoAWheelie { get; set; }
     }

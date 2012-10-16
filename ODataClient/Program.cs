@@ -17,9 +17,34 @@ namespace ODataClient
             //School.Operations.GetAllClasses();
             //School.Operations.GetAllClassesOfStudent();
             //School.Operations.DeleteClass();
-            School.Operations.EnrollToClass();
+            //School.Operations.EnrollToClass();
             //School.Operations.AddStudent();
             //School.Operations.GetAllStudentsInClass();
+
+            //InheritanceContext.ODataService.Models.Car car = new InheritanceContext.ODataService.Models.Car();
+            //car.Id = 1;
+            //car.Model = "Toyota";
+            //car.Name = "Camry";
+            //car.SeatingCapacity = 5;
+            ////car.WheelCount = 4;
+            //car.Something = "afasdfasdfsadfasdfsadfa";
+
+            //InheritanceContext.ODataService.Models.Container cntr = new InheritanceContext.ODataService.Models.Container(new Uri("http://kirandesktop:50231/"));
+            //cntr.AddToVehicles(car);
+            //cntr.SaveChanges();
+
+            EmployeesContext.ODataService.Models.Contoso.Employee emp = new EmployeesContext.ODataService.Models.Contoso.Employee();
+            emp.Id = 1;
+            emp.FullName = "Kiran";
+            emp.Manager = new EmployeesContext.ODataService.Models.Contoso.Employee() { Id = 2, FullName = "Jane" };
+            //emp.Peers = new DataServiceCollection<EmployeesContext.ODataService.Models.Contoso.Employee>();
+            //emp.Peers.Add(new EmployeesContext.ODataService.Models.Contoso.Employee() { FullName = "Hongye", Id = 3 });
+            //emp.Peers.Add(new EmployeesContext.ODataService.Models.Contoso.Employee() { FullName = "Dinesh", Id = 4 });
+
+            EmployeesContext.ODataService.Models.Contoso.Container cntr = new EmployeesContext.ODataService.Models.Contoso.Container(new Uri("http://kirandesktop:50231/"));
+            cntr.AddToEmployees(emp);
+            cntr.SaveChanges();
+
             return;
 
             Console.WriteLine("Welcome to the OData Web Api command line client sample.");
